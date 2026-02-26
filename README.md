@@ -46,8 +46,6 @@ The tool checks whether a student's list of completed courses satisfies the curr
 ```
 curriculum verification/
 │
-├── curriculum_verification.html        # Standalone browser-based tool (no install)
-│
 ├── _main.py                         # Entry point: define student study plan and run verification
 │
 ├── src/                             # Source codes for python version
@@ -61,7 +59,9 @@ curriculum verification/
 │       ├── curriculum_groups_2024.py      # Course group definitions for academic year 2024/2025
 │       └── curriculum_groups_2025.py      # Course group definitions for academic year 2025/2026
 │
-└── output/                          # Generated result files are saved here automatically
+├── output/                          # Generated result files are saved here automatically
+│
+└── curriculum_verification.html        # Standalone browser-based tool (no install)
 ```
 ---
 
