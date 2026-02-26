@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DTU MSc Curriculum Verification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0001B;
+    --red-dark: #8a0014;
+    --navy: #0f1923;
+    --navy-mid: #1a2736;
+    --slate: #2c3e50;
+    --ink: #1a1a2e;
+    --mist: #f4f2ee;
+    --paper: #faf9f7;
+    --white: #ffffff;
+    --rule: #d8d4cc;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --green: #0a6640;
+    --green-bg: #e8f5ee;
+    --red-bg: #fce8eb;
+    --amber: #8a5a00;
+    --amber-bg: #fff3dc;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--mist);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--red);
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 40px 28px 52px;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .header-badge {
+    background: var(--red);
+    color: white;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+  }
+  .header-text h1 {
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .header-text h1 strong {
+    font-weight: 600;
+  }
+  .header-text p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 6px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+    width: 100%;
+    flex: 1;
+  }
+
+  /* ── FORM CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .card-header {
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header .step {
+    background: var(--red);
+    color: white;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-header h2 {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .card-body {
+    padding: 24px;
+  }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 2px dashed var(--rule);
+    border-radius: 4px;
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--red);
+    background: var(--red-bg);
+  }
+  .upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .upload-icon {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 14px;
+    color: var(--red);
+    opacity: 0.7;
+  }
+  .upload-zone p.primary {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .upload-zone p.secondary {
+    font-size: 12px;
+    color: #888;
+    font-family: var(--mono);
+  }
+  .upload-status {
+    margin-top: 14px;
+    padding: 10px 16px;
+    background: var(--green-bg);
+    border: 1px solid #b3d9c4;
+    border-radius: 3px;
+    font-size: 13px;
+    color: var(--green);
+    font-family: var(--mono);
+    display: none;
+    text-align: left;
+  }
+  .upload-status.error {
+    background: var(--red-bg);
+    border-color: #f0b8c0;
+    color: var(--red-dark);
+  }
+
+  /* ── FORM GRID ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 7px;
+  }
+  .field input, .field select {
+    width: 100%;
+    padding: 10px 14px;
+    font-family: var(--sans);
+    font-size: 14px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .field input:focus, .field select:focus {
+    outline: none;
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(192,0,27,0.08);
+  }
+  .field .hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: 5px;
+    font-family: var(--mono);
+  }
+
+  /* ── EXTRACTED COURSES PREVIEW ── */
+  .courses-preview {
+    margin-top: 16px;
+    display: none;
+  }
+  .courses-preview label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .course-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    min-height: 44px;
+  }
+  .course-tag {
+    background: var(--navy);
+    color: white;
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── BUTTON ── */
+  .run-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 28px;
+    background: var(--red);
+    color: white;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .run-btn:hover { background: var(--red-dark); }
+  .run-btn:active { transform: translateY(1px); }
+  .run-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+  /* ── SPINNER ── */
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── RESULTS ── */
+  #results { display: none; }
+
+  .result-header {
+    padding: 24px 28px;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid;
+    border-bottom: none;
+  }
+  .result-header.satisfied {
+    background: var(--green-bg);
+    border-color: #b3d9c4;
+  }
+  .result-header.not-satisfied {
+    background: var(--red-bg);
+    border-color: #f0b8c0;
+  }
+  .result-header .verdict {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .result-header.satisfied .verdict { color: var(--green); }
+  .result-header.not-satisfied .verdict { color: var(--red-dark); }
+  .result-header .meta {
+    font-size: 13px;
+    font-family: var(--mono);
+    color: #555;
+  }
+
+  /* ── YEAR TABS ── */
+  .year-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--rule);
+    background: var(--white);
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    overflow-x: auto;
+  }
+  .year-tab {
+    padding: 12px 24px;
+    font-size: 13px;
+    font-family: var(--mono);
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #888;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .year-tab:hover { color: var(--ink); }
+  .year-tab.active { color: var(--red); border-bottom-color: var(--red); }
+  .year-tab .tab-badge {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-left: 7px;
+    vertical-align: middle;
+    margin-bottom: 1px;
+  }
+  .year-tab .tab-badge.ok { background: var(--green); }
+  .year-tab .tab-badge.fail { background: var(--red); }
+
+  /* ── YEAR PANEL ── */
+  .year-panel {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    display: none;
+  }
+  .year-panel.active { display: block; }
+
+  /* ── LEGEND ── */
+  .legend-bar {
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 12px;
+    color: #666;
+    font-family: var(--mono);
+    display: flex;
+    gap: 20px;
+    background: var(--paper);
+  }
+  .legend-bar span.taken-mark { color: var(--green); font-weight: 700; }
+  .legend-bar span.miss-mark { color: var(--red-dark); }
+
+  /* ── REQUIREMENT TABLE ── */
+  .req-block {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .req-block:last-child { border-bottom: none; }
+
+  .req-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: var(--ink);
+  }
+  .req-subtitle {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 14px;
+    font-family: var(--mono);
+  }
+
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .req-table thead th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    padding: 0 8px 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .req-table thead th:last-child { text-align: right; }
+  .req-table tbody tr { transition: background 0.1s; }
+  .req-table tbody tr:hover { background: var(--paper); }
+  .req-table tbody td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #f0ede8;
+    vertical-align: middle;
+  }
+  .req-table tbody tr:last-child td { border-bottom: none; }
+  .req-table td:last-child { text-align: right; }
+
+  .taken-row td { background: rgba(10,102,64,0.04); }
+  .taken-mark-cell {
+    color: var(--green);
+    font-weight: 700;
+    width: 18px;
+    padding-right: 0;
+  }
+  .course-code {
+    font-weight: 500;
+  }
+  .course-code.taken { color: var(--green); }
+  .course-code.not-taken { color: var(--ink); }
+  .course-or { color: #aaa; font-size: 11px; padding: 0 4px; }
+
+  .req-summary {
+    margin-top: 10px;
+    font-size: 12px;
+    font-family: var(--mono);
+    padding: 7px 12px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .req-summary.ok { background: var(--green-bg); color: var(--green); }
+  .req-summary.fail { background: var(--red-bg); color: var(--red-dark); }
+
+  /* ── PRINT ── */
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-family: var(--sans);
+    font-weight: 500;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: white;
+    cursor: pointer;
+    color: var(--slate);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .print-btn:hover { border-color: var(--red); color: var(--red); }
+
+  @media print {
+    header, .card:not(#results-card), .print-btn { display: none !important; }
+    #results { display: block !important; }
+    .year-panel { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-badge">DTU</div>
+    <div class="header-text">
+      <h1><strong>Curriculum Verification</strong> Tool</h1>
+      <p>MSc in Sustainable Energy — Specialization requirements checker</p>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Step 1: Upload PDF -->
+  <div class="card">
+    <div class="card-header">
+      <span class="step">1</span>
+      <h2>Study Plan PDF</h2>
+    </div>
+    <div class="card-body">
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="pdfInput" accept=".pdf" />
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="primary">Drop your study plan PDF here</p>
+        <p class="secondary">or click to browse — course numbers are extracted automatically</p>
+      </div>
+      <div class="upload-status" id="uploadStatus"></div>
+      <div class="courses-preview" id="coursesPreview">
+        <label>Courses extracted from PDF</label>
+        <div class="course-tags" id="courseTags"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Student details -->
+  <div class="card">
+    <div class="card-header">
+      <span class="step">2</span>
+      <h2>Student Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Specialization</label>
+          <select id="specialization">
+            <option value="">— Select a specialization —</option>
+            <option value="General">General</option>
+            <option value="Digital Energy Systems">Digital Energy Systems</option>
+            <option value="Energy Systems Analysis">Energy Systems Analysis</option>
+            <option value="Energy Efficient Building Systems">Energy Efficient Building Systems</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Start Year</label>
+          <input type="number" id="startYear" placeholder="e.g. 2023" min="2023" max="2030" value="2023" />
+          <div class="hint">Year in which MSc studies began (e.g. 2023 → 2023/2024)</div>
+        </div>
+      </div>
+      <div class="field" style="margin-top:20px">
+        <label>Additional Course Numbers <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#aaa">(optional)</span></label>
+        <input type="text" id="extraCourses" placeholder="e.g. 42114, 46205, 41636" />
+        <div class="hint">5-digit course numbers, comma-separated — for courses not in the PDF</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Run -->
+  <button class="run-btn" id="runBtn" onclick="runVerification()">
+    <div class="spinner" id="spinner"></div>
+    <span id="runLabel">Run Verification</span>
+  </button>
+
+  <!-- Results -->
+  <div id="results">
+    <div class="result-header" id="resultHeader">
+      <div class="verdict" id="resultVerdict"></div>
+      <div class="meta" id="resultMeta"></div>
+    </div>
+    <div class="year-tabs" id="yearTabs"></div>
+    <div id="yearPanels"></div>
+    <button class="print-btn" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+</main>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+// ── Configure PDF.js worker ──────────────────────────────────────────────────
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// ── CURRICULUM DATA ──────────────────────────────────────────────────────────
+// Each group: { name, courses: [ { codes: [...], ects: N } ], requirement: N }
+
+const C = {
+
+  // ── 2023 ──────────────────────────────────────────────────────────────────
+  polytechnic_foundation_2023: {
+    name: 'Polytechnic foundation courses (2023)',
+    courses: [
+      {codes:['42500'],ects:5},{codes:['42501'],ects:5},{codes:['42502'],ects:5},
+      {codes:['45503'],ects:5},{codes:['42504'],ects:5},{codes:['42505'],ects:5}
+    ],
+    requirement: 5
+  },
+  innovation_II_2023: {
+    name: 'Innovation course II (2023)',
+    courses: [{codes:['41636'],ects:5}],
+    requirement: 5
+  },
+  core_competence_mandatory_2023: {
+    name: 'Mandatory core competence courses (2023)',
+    courses: [{codes:['46740'],ects:5}],
+    requirement: 5
+  },
+  core_competence_mandatory_replacement_2023: {
+    name: 'Mandatory core competence courses replacement (2023)',
+    courses: [
+      {codes:['46770'],ects:5},{codes:['34552'],ects:5},{codes:['46300'],ects:5},
+      {codes:['41468'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['02180','02450'],ects:5},{codes:['42015'],ects:5},
+      {codes:['02418','02807'],ects:5},{codes:['42112','42101'],ects:5},
+      {codes:['02417'],ects:5},{codes:['02435'],ects:5},{codes:['02465'],ects:5},
+      {codes:['12362'],ects:5},{codes:['12611'],ects:5},{codes:['38105'],ects:5},
+      {codes:['41462'],ects:5},{codes:['41464'],ects:10},{codes:['41465'],ects:5},
+      {codes:['41466'],ects:5},{codes:['41467'],ects:5},{codes:['42001'],ects:5},
+      {codes:['42014'],ects:5},{codes:['42016'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46205'],ects:5},{codes:['46705'],ects:5},{codes:['46745'],ects:5},
+      {codes:['46750'],ects:5},{codes:['46755'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 5
+  },
+  core_competence_technology_2023: {
+    name: 'Elective technology-related core competence courses for general specialization (2023)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['46300'],ects:5},{codes:['41468'],ects:5},
+      {codes:['47301'],ects:5},{codes:['47330'],ects:5}
+    ],
+    requirement: 10
+  },
+  core_competence_digital_2023: {
+    name: 'Elective core competence courses in machine learning, operations research, programming, and energy markets for general specialization (2023)',
+    courses: [
+      {codes:['02180','02450'],ects:5},{codes:['42015'],ects:5},
+      {codes:['02418','02807'],ects:5},{codes:['42112','42101'],ects:5}
+    ],
+    requirement: 10
+  },
+  core_competence_general_2023: {
+    name: 'Other elective courses for general specialization (2023)',
+    courses: [
+      {codes:['02417'],ects:5},{codes:['02435'],ects:5},{codes:['02465'],ects:5},
+      {codes:['12362'],ects:5},{codes:['12611'],ects:5},{codes:['38105'],ects:5},
+      {codes:['41462'],ects:5},{codes:['41464'],ects:10},{codes:['41465'],ects:5},
+      {codes:['41466'],ects:5},{codes:['41467'],ects:5},{codes:['41468'],ects:5},
+      {codes:['42001'],ects:5},{codes:['42014'],ects:5},{codes:['42016'],ects:5},
+      {codes:['42879'],ects:5},{codes:['46205'],ects:5},{codes:['46705'],ects:5},
+      {codes:['46745'],ects:5},{codes:['46750'],ects:5},{codes:['46755'],ects:5},
+      {codes:['46765'],ects:5}
+    ],
+    requirement: 20
+  },
+  core_competence_combined_2023: {
+    name: 'Combined core competence courses without duplicates (2023)',
+    courses: [
+      {codes:['46770'],ects:5},{codes:['34552'],ects:5},{codes:['46300'],ects:5},
+      {codes:['41468'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['02180','02450'],ects:5},{codes:['42015'],ects:5},
+      {codes:['02418','02807'],ects:5},{codes:['42112','42101'],ects:5},
+      {codes:['02417'],ects:5},{codes:['02435'],ects:5},{codes:['02465'],ects:5},
+      {codes:['12362'],ects:5},{codes:['12611'],ects:5},{codes:['38105'],ects:5},
+      {codes:['41462'],ects:5},{codes:['41464'],ects:10},{codes:['41465'],ects:5},
+      {codes:['41466'],ects:5},{codes:['41467'],ects:5},{codes:['42001'],ects:5},
+      {codes:['42014'],ects:5},{codes:['42016'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46205'],ects:5},{codes:['46705'],ects:5},{codes:['46745'],ects:5},
+      {codes:['46750'],ects:5},{codes:['46755'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 45
+  },
+  ESA_core_competence_mandatory_2023: {
+    name: 'Mandatory core competence courses for Energy Systems Analysis specialization (2023)',
+    courses: [{codes:['42015'],ects:5},{codes:['42112','42101'],ects:5}],
+    requirement: 10
+  },
+  ESA_core_competence_technology_2023: {
+    name: 'Elective core competence technology-related courses for Energy Systems Analysis specialization (2023)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41468'],ects:5},{codes:['46300'],ects:10},
+      {codes:['47301'],ects:5},{codes:['47330'],ects:5}
+    ],
+    requirement: 10
+  },
+  ESA_core_competence_digital_2023: {
+    name: 'Elective core competence digital-related courses for Energy Systems Analysis specialization (2023)',
+    courses: [{codes:['02435'],ects:5},{codes:['42001'],ects:5},{codes:['46205'],ects:5}],
+    requirement: 10
+  },
+  ESA_core_competence_general_2023: {
+    name: 'Elective courses from core competences for Energy Systems Analysis specialization (2023)',
+    courses: [
+      {codes:['42014'],ects:5},{codes:['42016'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46745'],ects:5},{codes:['46755'],ects:5}
+    ],
+    requirement: 10
+  },
+  ESA_core_competence_combined_2023: {
+    name: 'Combined core competence courses for Energy Systems Analysis specialization without duplicates (2023)',
+    courses: [
+      {codes:['46770'],ects:5},{codes:['34552'],ects:5},{codes:['46300'],ects:5},
+      {codes:['41468'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['02180','02450'],ects:5},{codes:['42015'],ects:5},
+      {codes:['02418','02807'],ects:5},{codes:['42112','42101'],ects:5},
+      {codes:['02417'],ects:5},{codes:['02435'],ects:5},{codes:['02465'],ects:5},
+      {codes:['12362'],ects:5},{codes:['12611'],ects:5},{codes:['38105'],ects:5},
+      {codes:['41462'],ects:5},{codes:['41464'],ects:10},{codes:['41465'],ects:5},
+      {codes:['41466'],ects:5},{codes:['41467'],ects:5},{codes:['42001'],ects:5},
+      {codes:['42014'],ects:5},{codes:['42016'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46205'],ects:5},{codes:['46705'],ects:5},{codes:['46745'],ects:5},
+      {codes:['46750'],ects:5},{codes:['46755'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 45
+  },
+
+  // ── 2024 ──────────────────────────────────────────────────────────────────
+  polytechnic_foundation_2024: {
+    name: 'Polytechnic foundation courses (2024)',
+    courses: [
+      {codes:['12100','12101','12105','12106','41636'],ects:5},
+      {codes:['42500','42501','42502','45503','42504','42505'],ects:5}
+    ],
+    requirement: 10
+  },
+  innovation_II_2024: {
+    name: 'Innovation course II (2024)',
+    courses: [{codes:['41636','38102','42014','42015','42016','46755'],ects:5}],
+    requirement: 5
+  },
+  core_competence_mandatory_2024: {
+    name: 'Programme specific/core competence courses (2024)',
+    courses: [{codes:['46205'],ects:5},{codes:['46740'],ects:5},{codes:['46770'],ects:5}],
+    requirement: 15
+  },
+  core_competence_digital_2024: {
+    name: 'Elective core competence courses in machine learning, operations research, programming, and energy markets for general specialization (2024)',
+    courses: [
+      {codes:['02180','02450'],ects:5},{codes:['02418','02807'],ects:5},
+      {codes:['42112','42114'],ects:5},{codes:['42015'],ects:5}
+    ],
+    requirement: 10
+  },
+  core_competence_technology_2024: {
+    name: 'Elective technology-related core competence courses for general curriculum (2024)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['41468'],ects:5},
+      {codes:['46200'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['47334'],ects:5}
+    ],
+    requirement: 5
+  },
+  core_competence_general_2024: {
+    name: 'Other elective core competence courses for general specialization (2024)',
+    courses: [
+      {codes:['02417'],ects:5},{codes:['02431'],ects:5},{codes:['02435'],ects:5},
+      {codes:['02465'],ects:5},{codes:['02619'],ects:5},{codes:['12362'],ects:5},
+      {codes:['12611'],ects:5},{codes:['41462'],ects:5},{codes:['41464'],ects:10},
+      {codes:['41465'],ects:5},{codes:['41466'],ects:5},{codes:['41467'],ects:5},
+      {codes:['41468'],ects:5},{codes:['42001'],ects:5},{codes:['42014'],ects:5},
+      {codes:['42016'],ects:5},{codes:['46120'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46705'],ects:5},{codes:['46745'],ects:5},{codes:['46750'],ects:5},
+      {codes:['46755'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 15
+  },
+  polytechnic_innovation_combined_2024: {
+    name: 'Combined Polytechnic foundation and Innovation II courses without duplicates (2024)',
+    courses: [
+      {codes:['12100'],ects:5},{codes:['12101'],ects:5},{codes:['12105'],ects:5},
+      {codes:['12106'],ects:5},{codes:['41636'],ects:5},{codes:['42500'],ects:5},
+      {codes:['42501'],ects:5},{codes:['42502'],ects:5},{codes:['45503'],ects:5},
+      {codes:['42504'],ects:5},{codes:['42505'],ects:5},{codes:['38102'],ects:5},
+      {codes:['42014'],ects:5},{codes:['42015'],ects:5},{codes:['42016'],ects:5}
+    ],
+    requirement: 15
+  },
+  innovation_digital_combined_2024: {
+    name: 'Innovation II and core competence digital courses combined without duplicates (2024)',
+    courses: [
+      {codes:['41636'],ects:5},{codes:['38102'],ects:5},{codes:['42014'],ects:5},
+      {codes:['42015'],ects:5},{codes:['42016'],ects:5},{codes:['02180'],ects:5},
+      {codes:['02450'],ects:5},{codes:['02418'],ects:5},{codes:['02807'],ects:5},
+      {codes:['42112'],ects:5},{codes:['42114'],ects:5}
+    ],
+    requirement: 15
+  },
+  innovation_general_combined_2024: {
+    name: 'Combined general core competence + innovation II courses without duplicates (2024)',
+    courses: [
+      {codes:['41636'],ects:5},{codes:['38102'],ects:5},{codes:['42015'],ects:5},
+      {codes:['02417'],ects:5},{codes:['02431'],ects:5},{codes:['02435'],ects:5},
+      {codes:['02465'],ects:5},{codes:['02619'],ects:5},{codes:['12362'],ects:5},
+      {codes:['12611'],ects:5},{codes:['41462'],ects:5},{codes:['41464'],ects:10},
+      {codes:['41465'],ects:5},{codes:['41466'],ects:5},{codes:['41467'],ects:5},
+      {codes:['41468'],ects:5},{codes:['42001'],ects:5},{codes:['42014'],ects:5},
+      {codes:['42016'],ects:5},{codes:['46120'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46705'],ects:5},{codes:['46745'],ects:5},{codes:['46750'],ects:5},
+      {codes:['46755'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 20
+  },
+  technology_general_combined_2024: {
+    name: 'Combined general + technology core competence courses without duplicates (2024)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['46200'],ects:5},
+      {codes:['47301'],ects:5},{codes:['47330'],ects:5},{codes:['47334'],ects:5},
+      {codes:['02417'],ects:5},{codes:['02431'],ects:5},{codes:['02435'],ects:5},
+      {codes:['02465'],ects:5},{codes:['02619'],ects:5},{codes:['12362'],ects:5},
+      {codes:['12611'],ects:5},{codes:['41462'],ects:5},{codes:['41464'],ects:10},
+      {codes:['41465'],ects:5},{codes:['41466'],ects:5},{codes:['41467'],ects:5},
+      {codes:['41468'],ects:5},{codes:['42001'],ects:5},{codes:['42014'],ects:5},
+      {codes:['42016'],ects:5},{codes:['46120'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46705'],ects:5},{codes:['46745'],ects:5},{codes:['46750'],ects:5},
+      {codes:['46755'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 20
+  },
+
+  // ── 2025 ──────────────────────────────────────────────────────────────────
+  polytechnic_foundation_2025: {
+    name: 'Polytechnic foundation courses (2025)',
+    courses: [
+      {codes:['12100','12101','12105','12106','41636'],ects:5},
+      {codes:['42500','42501','42502','45503','42504','42505'],ects:5}
+    ],
+    requirement: 10
+  },
+  innovation_II_2025: {
+    name: 'Innovation course II (2025)',
+    courses: [{codes:['38102','42014','42015','42016'],ects:5}],
+    requirement: 5
+  },
+  core_competence_mandatory_2025: {
+    name: 'Core competence mandatory courses (2025)',
+    courses: [{codes:['46205'],ects:5},{codes:['46740'],ects:5},{codes:['46770'],ects:5}],
+    requirement: 15
+  },
+  core_competence_digital_2025: {
+    name: 'Core competence digital courses for general specialization (2025)',
+    courses: [
+      {codes:['02452','02180'],ects:5},{codes:['02476','02807'],ects:5},
+      {codes:['42112','42114'],ects:5},{codes:['46120'],ects:5},{codes:['46755'],ects:5}
+    ],
+    requirement: 10
+  },
+  core_competence_technology_2025: {
+    name: 'Core competence technology courses for general curriculum (2025)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['41468'],ects:5},
+      {codes:['46200'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['47334'],ects:5}
+    ],
+    requirement: 5
+  },
+  core_competence_general_2025: {
+    name: 'Core competence general courses for general specialization (2025)',
+    courses: [
+      {codes:['02417'],ects:5},{codes:['02431'],ects:5},{codes:['02435'],ects:5},
+      {codes:['02619'],ects:5},{codes:['12362'],ects:5},{codes:['12611'],ects:5},
+      {codes:['41462'],ects:5},{codes:['41464'],ects:10},{codes:['41465'],ects:5},
+      {codes:['41466'],ects:5},{codes:['41468'],ects:5},{codes:['41469'],ects:5},
+      {codes:['42001'],ects:5},{codes:['42879'],ects:5},{codes:['46705'],ects:5},
+      {codes:['46745'],ects:5},{codes:['46750'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 15
+  },
+  core_competence_combined_2025: {
+    name: 'Combined (technology + other) core competence courses without duplicates (2025)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['41468'],ects:5},
+      {codes:['46200'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['47334'],ects:5},{codes:['02417'],ects:5},{codes:['02431'],ects:5},
+      {codes:['02435'],ects:5},{codes:['02619'],ects:5},{codes:['12362'],ects:5},
+      {codes:['12611'],ects:5},{codes:['41462'],ects:5},{codes:['41464'],ects:10},
+      {codes:['41465'],ects:5},{codes:['41466'],ects:5},{codes:['41469'],ects:5},
+      {codes:['42001'],ects:5},{codes:['42879'],ects:5},{codes:['46705'],ects:5},
+      {codes:['46745'],ects:5},{codes:['46750'],ects:5},{codes:['46765'],ects:5}
+    ],
+    requirement: 20
+  },
+  DES_core_competence_digital_2025: {
+    name: 'Core competence digital courses for Digital Energy Systems specialization (2025)',
+    courses: [
+      {codes:['02452','02180'],ects:5},{codes:['02476','02807'],ects:5},
+      {codes:['42112','42114'],ects:5},{codes:['46120'],ects:5},{codes:['46755'],ects:5}
+    ],
+    requirement: 10
+  },
+  DES_core_competence_technology_2025: {
+    name: 'Core competence technology courses for Digital Energy Systems specialization (2025)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['41468'],ects:5},
+      {codes:['46200'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['47334'],ects:5}
+    ],
+    requirement: 5
+  },
+  DES_core_competence_general_1_2025: {
+    name: 'Core competence general courses for Digital Energy Systems specialization - Part 1 (2025)',
+    courses: [{codes:['46750'],ects:5},{codes:['46765'],ects:5}],
+    requirement: 10
+  },
+  DES_core_competence_general_2_2025: {
+    name: 'Core competence general courses for Digital Energy Systems specialization - Part 2 (2025)',
+    courses: [
+      {codes:['02417'],ects:5},{codes:['02435'],ects:5},
+      {codes:['02619'],ects:5},{codes:['46705'],ects:5}
+    ],
+    requirement: 5
+  },
+  ESA_core_competence_digital_2025: {
+    name: 'Core competence digital courses for Energy Systems Analysis specialization (2025)',
+    courses: [{codes:['42112','42114'],ects:5},{codes:['46120'],ects:5},{codes:['46755'],ects:5}],
+    requirement: 10
+  },
+  ESA_core_competence_technology_2025: {
+    name: 'Core competence technology courses for Energy Systems Analysis specialization (2025)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['41468'],ects:5},
+      {codes:['46200'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['47334'],ects:5}
+    ],
+    requirement: 5
+  },
+  ESA_core_competence_general_1_2025: {
+    name: 'Core competence general courses for Energy Systems Analysis specialization - Part 1 (2025)',
+    courses: [
+      {codes:['42014'],ects:5},{codes:['42016'],ects:5},{codes:['42879'],ects:5},
+      {codes:['46745'],ects:5},{codes:['46755'],ects:5}
+    ],
+    requirement: 10
+  },
+  ESA_core_competence_general_2_2025: {
+    name: 'Core competence general courses for Energy Systems Analysis specialization - Part 2 (2025)',
+    courses: [{codes:['02435'],ects:5},{codes:['42001'],ects:5}],
+    requirement: 5
+  },
+  ESA_core_competence_combined_2025: {
+    name: 'Combined Core competence digital & general 1/2 for Energy Systems Analysis specialization without duplicates (2025)',
+    courses: [
+      {codes:['42112'],ects:5},{codes:['42114'],ects:5},{codes:['46120'],ects:5},
+      {codes:['46755'],ects:5},{codes:['42014'],ects:5},{codes:['42016'],ects:5},
+      {codes:['42879'],ects:5},{codes:['46745'],ects:5}
+    ],
+    requirement: 20
+  },
+  EEBS_core_competence_digital_2025: {
+    name: 'Core competence digital courses for Energy Efficient Building Systems specialization (2025)',
+    courses: [{codes:['42112','42114'],ects:5},{codes:['46120'],ects:5},{codes:['46755'],ects:5}],
+    requirement: 10
+  },
+  EEBS_core_competence_technology_2025: {
+    name: 'Core competence technology courses for Energy Efficient Building Systems specialization (2025)',
+    courses: [
+      {codes:['34552'],ects:5},{codes:['41418'],ects:5},{codes:['41468'],ects:5},
+      {codes:['46200'],ects:5},{codes:['47301'],ects:5},{codes:['47330'],ects:5},
+      {codes:['47334'],ects:5}
+    ],
+    requirement: 5
+  },
+  EEBS_core_competence_general_1_2025: {
+    name: 'Core competence general courses for Energy Efficient Building Systems specialization - Part 1 (2025)',
+    courses: [{codes:['41462'],ects:5},{codes:['41466'],ects:5}],
+    requirement: 10
+  },
+  EEBS_core_competence_general_2_2025: {
+    name: 'Core competence general courses for Energy Efficient Building Systems specialization - Part 2 (2025)',
+    courses: [
+      {codes:['12362'],ects:5},{codes:['12611'],ects:5},{codes:['41465'],ects:5},
+      {codes:['41468'],ects:5},{codes:['41469'],ects:5}
+    ],
+    requirement: 5
+  }
+};
+
+// ── CURRICULUM MAPPING ───────────────────────────────────────────────────────
+const CURRICULUMS = {
+  'General': {
+    2023: [
+      C.polytechnic_foundation_2023, C.innovation_II_2023,
+      C.core_competence_mandatory_2023, C.core_competence_mandatory_replacement_2023,
+      C.core_competence_digital_2023, C.core_competence_technology_2023,
+      C.core_competence_general_2023, C.core_competence_combined_2023
+    ],
+    2024: [
+      C.polytechnic_foundation_2024, C.innovation_II_2024,
+      C.core_competence_mandatory_2024, C.core_competence_digital_2024,
+      C.core_competence_technology_2024, C.core_competence_general_2024,
+      C.polytechnic_innovation_combined_2024, C.innovation_digital_combined_2024,
+      C.innovation_general_combined_2024, C.technology_general_combined_2024
+    ],
+    2025: [
+      C.polytechnic_foundation_2025, C.innovation_II_2025,
+      C.core_competence_mandatory_2025, C.core_competence_digital_2025,
+      C.core_competence_technology_2025, C.core_competence_general_2025,
+      C.core_competence_combined_2025
+    ]
+  },
+  'Digital Energy Systems': {
+    2025: [
+      C.polytechnic_foundation_2025, C.innovation_II_2025,
+      C.core_competence_mandatory_2025, C.DES_core_competence_digital_2025,
+      C.DES_core_competence_technology_2025, C.DES_core_competence_general_1_2025,
+      C.DES_core_competence_general_2_2025
+    ]
+  },
+  'Energy Systems Analysis': {
+    2023: [
+      C.polytechnic_foundation_2023, C.innovation_II_2023,
+      C.core_competence_mandatory_2023, C.ESA_core_competence_mandatory_2023,
+      C.ESA_core_competence_technology_2023, C.ESA_core_competence_digital_2023,
+      C.ESA_core_competence_general_2023, C.ESA_core_competence_combined_2023
+    ],
+    2025: [
+      C.polytechnic_foundation_2025, C.innovation_II_2025,
+      C.core_competence_mandatory_2025, C.ESA_core_competence_digital_2025,
+      C.ESA_core_competence_technology_2025, C.ESA_core_competence_general_1_2025,
+      C.ESA_core_competence_general_2_2025, C.ESA_core_competence_combined_2025
+    ]
+  },
+  'Energy Efficient Building Systems': {
+    2025: [
+      C.polytechnic_foundation_2025, C.innovation_II_2025,
+      C.core_competence_mandatory_2025, C.EEBS_core_competence_digital_2025,
+      C.EEBS_core_competence_technology_2025, C.EEBS_core_competence_general_1_2025,
+      C.EEBS_core_competence_general_2_2025
+    ]
+  }
+};
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let extractedCourses = [];
+let studentName = null;
+
+// ── PDF HANDLING ─────────────────────────────────────────────────────────────
+const pdfInput = document.getElementById('pdfInput');
+const uploadZone = document.getElementById('uploadZone');
+const uploadStatus = document.getElementById('uploadStatus');
+const coursesPreview = document.getElementById('coursesPreview');
+const courseTags = document.getElementById('courseTags');
+
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+pdfInput.addEventListener('change', () => {
+  if (pdfInput.files[0]) handleFile(pdfInput.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file.name.toLowerCase().endsWith('.pdf')) {
+    showStatus('Please upload a PDF file.', true);
+    return;
+  }
+  showStatus(`Reading "${file.name}"…`, false);
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const tc = await page.getTextContent();
+      fullText += tc.items.map(item => item.str).join(' ') + '\n';
+    }
+
+    // Extract student name (Danish pattern)
+    const nameMatch = fullText.match(/Det bek[ræ]+ftes hermed,\s*at\s+(.+?),\s*cpr-nr:/);
+    studentName = nameMatch ? nameMatch[1].trim() : null;
+
+    // Extract 5-digit course numbers
+    const matches = fullText.match(/(?<!\d)\d{5}(?!\d)/g) || [];
+    const seen = new Set();
+    extractedCourses = [];
+    for (const m of matches) {
+      if (!seen.has(m)) { seen.add(m); extractedCourses.push(m); }
+    }
+
+    showStatus(`✓ Extracted ${extractedCourses.length} course number${extractedCourses.length !== 1 ? 's' : ''}${studentName ? ` · Student: ${studentName}` : ''}`, false);
+    renderCourseTags(extractedCourses);
+  } catch (err) {
+    showStatus('Error reading PDF: ' + err.message, true);
+  }
+}
+
+function showStatus(msg, isError) {
+  uploadStatus.textContent = msg;
+  uploadStatus.style.display = 'block';
+  uploadStatus.classList.toggle('error', isError);
+}
+
+function renderCourseTags(courses) {
+  courseTags.innerHTML = courses.length
+    ? courses.map(c => `<span class="course-tag">${c}</span>`).join('')
+    : '<span style="color:#aaa;font-size:12px;font-family:var(--mono)">No courses found</span>';
+  coursesPreview.style.display = 'block';
+}
+
+// ── VERIFICATION LOGIC ───────────────────────────────────────────────────────
+function testYear(courseSet, groups) {
+  const earned = {};
+  for (const group of groups) {
+    let pts = 0;
+    for (const entry of group.courses) {
+      if (entry.codes.some(c => courseSet.has(c))) pts += entry.ects;
+    }
+    earned[group.name] = pts;
+  }
+  const results = {};
+  for (const group of groups) results[group.name] = earned[group.name] >= group.requirement;
+  return { earned, results, allOk: Object.values(results).every(Boolean) };
+}
+
+function runVerification() {
+  const spec = document.getElementById('specialization').value;
+  const startYear = parseInt(document.getElementById('startYear').value, 10);
+  const extraRaw = document.getElementById('extraCourses').value;
+
+  if (!spec) { alert('Please select a specialization.'); return; }
+  if (!startYear || startYear < 2000 || startYear > 2099) { alert('Please enter a valid start year.'); return; }
+  if (extractedCourses.length === 0 && !extraRaw.trim()) {
+    alert('Please upload a PDF or enter at least one course number.'); return;
+  }
+
+  // Parse extra courses
+  const extra = extraRaw.split(/[\s,;]+/).map(s => s.trim()).filter(s => /^\d{5}$/.test(s));
+  const allCourses = [...new Set([...extractedCourses, ...extra])];
+  const courseSet = new Set(allCourses);
+
+  const curriculum = CURRICULUMS[spec];
+  if (!curriculum) { alert('No curriculum data for this specialization.'); return; }
+
+  // Animate button
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('runLabel').textContent = 'Verifying…';
+  document.getElementById('runBtn').disabled = true;
+
+  setTimeout(() => {
+    const currentYear = new Date().getFullYear();
+    const yearsToCheck = Object.keys(curriculum).map(Number)
+      .filter(y => y >= startYear && y <= currentYear)
+      .sort((a,b) => a-b);
+
+    if (yearsToCheck.length === 0) {
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('runLabel').textContent = 'Run Verification';
+      document.getElementById('runBtn').disabled = false;
+      alert(`No curriculum data available for ${spec} between ${startYear} and ${currentYear}.`);
+      return;
+    }
+
+    const yearResults = {};
+    for (const y of yearsToCheck) {
+      yearResults[y] = testYear(courseSet, curriculum[y]);
+    }
+
+    const passedYears = yearsToCheck.filter(y => yearResults[y].allOk);
+    const overallPass = passedYears.length > 0;
+    const displayYears = overallPass ? [passedYears[0]] : yearsToCheck;
+
+    renderResults({
+      spec, startYear, studentName,
+      allCourses, courseSet,
+      yearResults, overallPass, passedYears, displayYears, curriculum
+    });
+
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('runLabel').textContent = 'Run Verification';
+    document.getElementById('runBtn').disabled = false;
+
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+// ── RENDER RESULTS ───────────────────────────────────────────────────────────
+function renderResults({ spec, startYear, studentName, allCourses, courseSet, yearResults, overallPass, passedYears, displayYears, curriculum }) {
+  const resultsEl = document.getElementById('results');
+  const header = document.getElementById('resultHeader');
+  const verdict = document.getElementById('resultVerdict');
+  const meta = document.getElementById('resultMeta');
+  const yearTabs = document.getElementById('yearTabs');
+  const yearPanels = document.getElementById('yearPanels');
+
+  // Header
+  header.className = 'result-header ' + (overallPass ? 'satisfied' : 'not-satisfied');
+  if (overallPass) {
+    const minYear = passedYears[0];
+    verdict.textContent = `✓ Requirements satisfied (${minYear}/${minYear+1} curriculum)`;
+    meta.textContent = `${studentName || 'Student'} · ${spec} · Start year: ${startYear} · ${allCourses.length} courses`;
+  } else {
+    verdict.textContent = `✗ Requirements not satisfied for ${spec}`;
+    meta.textContent = `${studentName || 'Student'} · Start year: ${startYear} · ${allCourses.length} courses · Showing details for all applicable years`;
+  }
+
+  // Tabs & panels
+  yearTabs.innerHTML = '';
+  yearPanels.innerHTML = '';
+
+  displayYears.forEach((year, idx) => {
+    const res = yearResults[year];
+    const label = `${year}/${year+1}`;
+    const ok = res.allOk;
+
+    const tab = document.createElement('button');
+    tab.className = 'year-tab' + (idx === 0 ? ' active' : '');
+    tab.innerHTML = `${label}<span class="tab-badge ${ok ? 'ok' : 'fail'}"></span>`;
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.year-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(`panel-${year}`).classList.add('active');
+    });
+    yearTabs.appendChild(tab);
+
+    const panel = document.createElement('div');
+    panel.className = 'year-panel' + (idx === 0 ? ' active' : '');
+    panel.id = `panel-${year}`;
+    panel.innerHTML = buildYearPanel(curriculum[year], res, courseSet, spec, year);
+    yearPanels.appendChild(panel);
+  });
+
+  resultsEl.style.display = 'block';
+}
+
+function buildYearPanel(groups, { earned, results }, courseSet, spec, year) {
+  const allOk = Object.values(results).every(Boolean);
+  let html = `<div class="legend-bar">
+    <span><span class="taken-mark">★</span> = course taken by student</span>
+    <span style="color:#aaa">|</span>
+    <span>Showing curriculum for ${spec} ${year}/${year+1}</span>
+  </div>`;
+
+  for (const group of groups) {
+    const groupOk = earned[group.name] >= group.requirement;
+    html += `<div class="req-block">
+      <div class="req-title">${escHtml(group.name)}</div>
+      <div class="req-subtitle">Minimum ${group.requirement} ECTS required from this list</div>
+      <table class="req-table">
+        <thead><tr><th style="width:18px"></th><th>Course(s)</th><th>ECTS</th></tr></thead>
+        <tbody>`;
+
+    for (const entry of group.courses) {
+      const isTaken = entry.codes.some(c => courseSet.has(c));
+      const rowClass = isTaken ? 'taken-row' : '';
+      const marker = isTaken ? '<td class="taken-mark-cell">★</td>' : '<td></td>';
+
+      const coursesHtml = entry.codes.map((code, i) => {
+        const cls = courseSet.has(code) ? 'taken' : 'not-taken';
+        return `<span class="course-code ${cls}">${code}</span>${i < entry.codes.length - 1 ? '<span class="course-or"> or </span>' : ''}`;
+      }).join('');
+
+      html += `<tr class="${rowClass}">${marker}<td>${coursesHtml}</td><td>${entry.ects}</td></tr>`;
+    }
+
+    html += `</tbody></table>
+      <div class="req-summary ${groupOk ? 'ok' : 'fail'}">
+        ${groupOk
+          ? `✓ Requirement satisfied — ${earned[group.name]} ECTS earned`
+          : `✗ Requirement not satisfied — ${earned[group.name]} ECTS earned; ${group.requirement - earned[group.name]} ECTS missing`}
+      </div>
+    </div>`;
+  }
+  return html;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
