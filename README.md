@@ -130,9 +130,4 @@ To add curriculum data for a new year (e.g. 2026):
    - `'courses'`: a dictionary mapping tuples of course codes to their ECTS value. Courses grouped in the same tuple are interchangeable (i.e. the student can take any one of them to earn those ECTS).
    - `'requirement'`: the minimum number of ECTS the student must earn from this group.
 
-2. Add the import in `src/input/__init__.py`:
-   ```python
-   from .curriculum_groups_2026 import *
-   ```
-
-3. Add the new year's curriculum lists to the relevant specialization dictionaries in `src/input/curriculum_specializations.py`.
+2. Add the new year's curriculum lists to the relevant specialization dictionaries in `src/input/curriculum_specializations.py`.
