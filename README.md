@@ -17,7 +17,6 @@ curriculum verification/
 │   ├── write_solutions.py           # Outputs results as .txt or .html files
 │   │
 │   └── input/                       # Curriculum data
-│       ├── __init__.py              # Imports all yearly curriculum files
 │       ├── curriculum_specializations.py  # Maps specialization names to their yearly curricula
 │       ├── curriculum_groups_2023.py      # Course group definitions for academic year 2023/2024
 │       ├── curriculum_groups_2024.py      # Course group definitions for academic year 2024/2025
